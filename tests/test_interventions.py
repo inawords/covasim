@@ -96,7 +96,7 @@ def test_all_interventions():
             print(f'Running {sim.label}...')
             sim.plot()
             fig = pl.gcf()
-            fig.axes[0].set_title(f'Simulation: {sim.label}')
+            # fig.axes[0].set_title(f'Simulation: {sim.label}')
 
     return
 
