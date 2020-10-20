@@ -1,12 +1,18 @@
 import os
 
 data_base_path = "../data/vorarlberg"
-
 """data file created with data scraper, see also file in 'data/epi_data/corona-data"""
 real_data_csv = os.path.join(data_base_path, "Vorarlberg_ Austria.csv")
-
 """file containing population created with synthpops"""
 pop_file = os.path.join(data_base_path, "population.pop")
+
+
+pop_size = 388711
+pop_type = 'synthpops'
+pop_infected = 80
+start_date = '2020-03-01'
+end_date = '2020-07-12'
+
 
 """Scenario metaparameters"""
 scenario_metapars = dict(
@@ -16,6 +22,7 @@ scenario_metapars = dict(
     rand_seed=1,
     quantiles={'low': 0.1, 'high': 0.9},
 )
+
 
 """parameters for synthpops to generate population"""
 synthpops_pars = dict(
