@@ -21,7 +21,16 @@ use `change_beta` to simulate reduced transmission due to MNS, more hygiene, etc
 real testing data is used in this interventsions
 """
 interventions = [
-    # cv.contact_tracing(start_day=4, trace_probs=0.5, trace_time=1.0),
+    # Tracing
+    cv.contact_tracing(start_day=days('2020-03-04'),
+                       trace_probs={'s': 0.1, 'h': 0.4, 'w': 0.1, 'c': 0.05},
+                       trace_time={'s': 2.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
+    cv.contact_tracing(start_day=days('2020-03-16'),
+                       trace_probs={'s': 0.2, 'h': 0.7, 'w': 0.2, 'c': 0.1},
+                       trace_time={'s': 1.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
+    cv.contact_tracing(start_day=school_opening,
+                       trace_probs={'s': 0.5},
+                       trace_time={'s': 1.0}),
 
     # Testing
     cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3, symp_test=600),
@@ -31,11 +40,11 @@ interventions = [
     # school
     cv.clip_edges(
         [lockdown,  school_opening],
-        [0.01,      0.8],
+        [0.2,      0.8],
         layers='s'),
     cv.change_beta(
         [lockdown,  school_opening],
-        [0,         0.8],  # kleine Betreuungsgruppen (zB Kindergarten) -> 0 ist zu krass
+        [0.8,         0.7],  # lockdown durch clip_edges realisiert - Ansteckung durch MNS auf 0.8
         layers='s'),
 
     # work
@@ -45,17 +54,17 @@ interventions = [
         layers='w'),
     cv.change_beta(
         [lockdown,  open_stores_with_mns,   reduced_mns],
-        [0.8,       0.7,                    0.8],
+        [0.5,       0.7,                    0.8],
         layers='w'),
 
     # community
     cv.clip_edges(
         [lockdown,  open_stores_with_mns,   reduced_mns],
-        [0.2,       0.8,                    0.8],
+        [0.2,       0.8,                    1.0],
         layers='c'),
     cv.change_beta(
         [lockdown,  open_stores_with_mns,   reduced_mns],
-        [0.8,       0.4,                    0.6],
+        [0.8,       0.9,                    1.0],
         layers='c'),
 ]
 

@@ -33,16 +33,16 @@ def vorarlberg_scenario():
 
 
 def main():
-    # sim = vorarlberg_simulation_extended()
+    sim = vorarlberg_simulation_extended()
     # sim = vorarlberg_real_sim()
-    # sim.run(verbose=True)
+    sim.run(verbose=True)
     # fit = cv.Fit(sim)
     # fit.plot()
     # agehist = sim.make_age_histogram()
     # agehist.plot()
-    # simple_plot(sim)
+    simple_plot(sim)
 
-    vorarlberg_scenario()
+    # vorarlberg_scenario()
 
 
 if __name__ == '__main__':
