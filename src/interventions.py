@@ -21,6 +21,8 @@ use `change_beta` to simulate reduced transmission due to MNS, more hygiene, etc
 real testing data is used in this interventsions
 """
 interventions = [
+    # cv.contact_tracing(start_day=4, trace_probs=0.5, trace_time=1.0),
+
     # Testing
     cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3, symp_test=600),
     cv.test_num(start_day=days('2020-08-01'), daily_tests=daily_tests_since_august, test_delay=3, symp_test=750),
@@ -33,7 +35,7 @@ interventions = [
         layers='s'),
     cv.change_beta(
         [lockdown,  school_opening],
-        [0,         0.8],
+        [0,         0.8],  # kleine Betreuungsgruppen (zB Kindergarten) -> 0 ist zu krass
         layers='s'),
 
     # work

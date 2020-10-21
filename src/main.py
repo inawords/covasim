@@ -22,12 +22,27 @@ def vorarlberg_simulation_extended():
     )
 
 
+def vorarlberg_scenario():
+    sim = create_vorarlberg_sim(
+        interventions=interventions,
+        end_day='2020-10-20',
+    )
+    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenarios)
+    scenario.run(verbose=True)
+    scenario.plot(do_show=True)
+
+
 def main():
     # sim = vorarlberg_simulation_extended()
-    sim = vorarlberg_real_sim()
+    # sim = vorarlberg_real_sim()
+    # sim.run(verbose=True)
+    # fit = cv.Fit(sim)
+    # fit.plot()
+    # agehist = sim.make_age_histogram()
+    # agehist.plot()
+    # simple_plot(sim)
 
-    sim.run(verbose=True)
-    simple_plot(sim)
+    vorarlberg_scenario()
 
 
 if __name__ == '__main__':
