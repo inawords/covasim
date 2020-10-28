@@ -18,7 +18,7 @@ def vorarlberg_real_sim():
 def vorarlberg_simulation_extended():
     return create_vorarlberg_sim(
         interventions=interventions,
-        end_day='2020-10-20',
+        end_day='2020-10-26',
     )
 
 

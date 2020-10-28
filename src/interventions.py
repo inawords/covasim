@@ -19,28 +19,22 @@ school_opening = days('2020-9-14')
 use `clip_edges` to simulate reduced contact between people
 use `change_beta` to simulate reduced transmission due to MNS, more hygiene, etc
 real testing data is used in this interventsions
+
+!! important: interventions will be applied in order of definition !! 
+--> result will be different if for example testing is applied before clipping edges or vice versa
 """
 interventions = [
-    # Tracing
-    cv.contact_tracing(start_day=days('2020-03-04'),
-                       trace_probs={'s': 0.1, 'h': 0.4, 'w': 0.1, 'c': 0.05},
-                       trace_time={'s': 2.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
-    cv.contact_tracing(start_day=lockdown,
-                       trace_probs={'s': 0.2, 'h': 0.7, 'w': 0.2, 'c': 0.1},
-                       trace_time={'s': 1.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
-    cv.contact_tracing(start_day=school_opening,
-                       trace_probs={'s': 1.0, 'w': 0.5},
-                       trace_time={'s': 1.0, 'w': 1.0}),
-
     # Testing
-    cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3, symp_test=600),
-    cv.test_num(start_day=days('2020-08-01'), daily_tests=daily_tests_since_august, test_delay=3, symp_test=750),
-    cv.test_num(start_day=days('2020-10-20'), daily_tests=np.mean(daily_tests_october), test_delay=3, symp_test=750),
+    cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3, symp_test=625), # CAN'T TOUCH THIS --> Hammer Zeit
+    cv.test_num(start_day=days('2020-08-01'), daily_tests=daily_tests_august, test_delay=3, symp_test=725),
+    cv.test_num(start_day=days('2020-09-01'), daily_tests=daily_tests_september, test_delay=3, symp_test=625),
+    cv.test_num(start_day=days('2020-10-01'), daily_tests=daily_tests_october, test_delay=4, symp_test=725),
+    cv.test_num(start_day=days('2020-10-27'), daily_tests=np.mean(daily_tests_october), test_delay=3, symp_test=750),
 
     # school
     cv.clip_edges(
         [lockdown,  school_opening],
-        [0.2,      0.6],
+        [0.2,      0.8],
         layers='s'),
     cv.change_beta(
         [lockdown,  school_opening],
@@ -50,7 +44,7 @@ interventions = [
     # work
     cv.clip_edges(
         [lockdown,  open_stores_with_mns,   reduced_mns],
-        [0.55,      0.6,                    0.7],
+        [0.55,      0.6,                    0.8],
         layers='w'),
     cv.change_beta(
         [lockdown,  open_stores_with_mns,   reduced_mns],
@@ -64,8 +58,22 @@ interventions = [
         layers='c'),
     cv.change_beta(
         [lockdown,  open_stores_with_mns,   reduced_mns],
-        [0.8,       0.9,                    1.0],
+        [0.8,       0.7,                    0.9],
         layers='c'),
+
+    # Tracing
+    cv.contact_tracing(start_day=days('2020-03-04'),
+                       trace_probs={'s': 0.1, 'h': 0.4, 'w': 0.1, 'c': 0.05},
+                       trace_time={'s': 2.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
+    cv.contact_tracing(start_day=lockdown,
+                       trace_probs={'s': 0.2, 'h': 0.7, 'w': 0.2, 'c': 0.1},
+                       trace_time={'s': 1.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
+    cv.contact_tracing(start_day=school_opening,
+                       trace_probs={'s': 0.6, 'w': 0.5},
+                       trace_time={'s': 1.0, 'w': 1.0}),
+    cv.contact_tracing(start_day=days('2020-10-01'),
+                       trace_probs={'w': 0.05, 'c': 0.05}, # private Erfahrungen - freiwillige Quarantäne vs zu wenig Angestellte
+                       trace_time={'w': 2.0, 'c': 7.0}),   # private Erfahrungen - hohe Auslastung der Tracer
 ]
 
 """
@@ -80,7 +88,7 @@ interventions_old = [
     cv.test_num(start_day=151, daily_tests=900, test_delay=2, symp_test=400),  # ab August
 
     cv.clip_edges([16, 190], [0.01, 0.8], layers='s'),
-    # lockdown school -> Schulschließung, Schulöffnung ohne Uni, FHV (0.8) lol Johannes
+    # lockdown school -> Schulschließung, Schulöffnung ohne Uni, FHV (0.8)
     cv.clip_edges([16, 60, 105], [0.55, 0.6, 0.7], layers='w'),
     # lockdown work -> Geschäfte schließen, Kurzarbeit, HomeOffice wenn möglich
     cv.clip_edges([16, 60, 105], [0.2, 0.8, 0.85], layers='c'),
