@@ -63,7 +63,7 @@ interventions = [
         layers='c'),
 
     # Tracing
-    cv.contact_tracing(start_day=days('2020-03-04'),
+    cv.contact_tracing(start_day=days('2020-03-01'),
                        trace_probs={'s': 0.1, 'h': 0.4, 'w': 0.1, 'c': 0.05},
                        trace_time={'s': 2.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
     cv.contact_tracing(start_day=lockdown,
