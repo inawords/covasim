@@ -15,4 +15,10 @@ daily_tests_september = [733, 938, 860, 1355, 254, 229, 483, 837, 966, 1268, 138
 daily_tests_october = [1030, 1903, 1022, 908, 797, 871, 1284, 1609, 1299, 1206, 1068, 676, 1088, 1077, 1947, 2005, 1413,
                        1017, 551, 824, 1167, 1448, 1480, 2361, 215, 1116, 757, 624, 1565, 1312, 1299]
 # incl. 2020-11-02
-daily_tests_november = [1145, 938]
+# daily_tests_november = [1145, 938]
+daily_tests_november = 1500
+daily_tests_december = 1700
+daily_tests_january = 2000
+daily_tests_february = 2100
+daily_tests_march21 = 2200
+daily_tests_april21 = 2300
