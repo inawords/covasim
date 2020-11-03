@@ -11,7 +11,7 @@ pop_size = 388711
 pop_type = 'synthpops'
 pop_infected = 80
 start_date = '2020-03-01'
-end_date = '2020-07-12'
+end_date = '2020-10-27'
 
 
 """Scenario metaparameters"""

@@ -6,7 +6,7 @@ from src.data.testing import *
 
 # daily test data until 2020-10-19
 daily_tests_until_july = daily_tests_march + daily_tests_april + daily_tests_may + daily_tests_june + daily_tests_july
-daily_tests_since_august = daily_tests_august + daily_tests_september + daily_tests_october
+daily_tests_since_august = daily_tests_august + daily_tests_september + daily_tests_october + daily_tests_november
 
 # starting days of interventions
 days = calc_days(start_date)
@@ -29,7 +29,8 @@ interventions = [
     cv.test_num(start_day=days('2020-08-01'), daily_tests=daily_tests_august, test_delay=3, symp_test=725),
     cv.test_num(start_day=days('2020-09-01'), daily_tests=daily_tests_september, test_delay=3, symp_test=625),
     cv.test_num(start_day=days('2020-10-01'), daily_tests=daily_tests_october, test_delay=4, symp_test=725),
-    cv.test_num(start_day=days('2020-10-27'), daily_tests=np.mean(daily_tests_october), test_delay=3, symp_test=750),
+    cv.test_num(start_day=days('2020-11-01'), daily_tests=daily_tests_november, test_delay=3, symp_test=750),
+    cv.test_num(start_day=days('2020-11-03'), daily_tests=np.mean(daily_tests_november), test_delay=3, symp_test=750),
 
     # school
     cv.clip_edges(

@@ -8,7 +8,7 @@ from src.interventions import *
 
 def vorarlberg_real_sim():
     """
-    bis 2020-07-12, annähernd die tatsächlichen Zahlen simuliert (Daten im csv-Format liegen nur bis 2020-07-12 vor)
+    bis 2020-10-27, annähernd die tatsächlichen Zahlen simuliert (Daten im csv-Format liegen bis 2020-10-27 vor)
     """
     return create_vorarlberg_sim(
         interventions=interventions,
@@ -18,14 +18,14 @@ def vorarlberg_real_sim():
 def vorarlberg_simulation_extended():
     return create_vorarlberg_sim(
         interventions=interventions,
-        end_day='2020-10-26',
+        end_day='2020-11-03',
     )
 
 
 def vorarlberg_scenario():
     sim = create_vorarlberg_sim(
         interventions=interventions,
-        end_day='2020-10-20',
+        end_day='2020-11-03',
     )
     scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenarios)
     scenario.run(verbose=True)
