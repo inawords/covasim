@@ -3,8 +3,8 @@ from src.interventions import interventions
 
 # Define the actual scenarios
 
-scenarios = {'baseline': {
-    'name': 'Baseline',
+scenarios = {'homeOffice': {
+    'name': 'HomeOffice',
     'pars': {
         'interventions': interventions
     }
