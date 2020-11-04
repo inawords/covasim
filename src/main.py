@@ -1,11 +1,11 @@
 import covasim as cv
 import numpy as np
 import pandas as pd
-import datetime
 from src.utils.plotting import *
 from src.vorarlberg_simulation import *
 from src.examples import *
 from src.interventions import *
+from src.utils.utils import *
 
 overview_plots = [
             'cum_infections',
@@ -20,45 +20,22 @@ overview_plots = [
             ]
 
 
-def vorarlberg_real_sim():
-    """
-    bis 2020-10-27, annähernd die tatsächlichen Zahlen simuliert (Daten im csv-Format liegen bis 2020-10-27 vor)
-    """
+def vorarlberg_simulation():
     return create_vorarlberg_sim(
         interventions=interventions,
-    )
-
-
-def vorarlberg_simulation_extended():
-    return create_vorarlberg_sim(
-        interventions=interventions,
-        end_day='2020-11-03',
+        end_day='2020-10-31',
     )
 
 
 def vorarlberg_scenario():
-    sim = create_vorarlberg_sim(
-        interventions=interventions,
-        end_day='2020-10-31',
-    )
+    sim = vorarlberg_simulation()
     scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenarios)
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 
 
 def main():
-    # sim = vorarlberg_simulation_extended()
-    # sim = vorarlberg_real_sim()
-    # sim.run(verbose=True)
-    # fit = cv.Fit(sim)
-    # fit.plot()
-    # agehist = sim.make_age_histogram()
-    # agehist.plot()
-    # simple_plot(sim)
-
-    df = pd.DataFrame(interventions)
-    date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    df.to_csv('./data/interventions_' + date + '.csv')
+    backup_interventions(interventions)
     vorarlberg_scenario()
 
 
