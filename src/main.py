@@ -1,5 +1,7 @@
 import covasim as cv
 import numpy as np
+import pandas as pd
+import datetime
 from src.utils.plotting import *
 from src.vorarlberg_simulation import *
 from src.examples import *
@@ -54,6 +56,9 @@ def main():
     # agehist.plot()
     # simple_plot(sim)
 
+    df = pd.DataFrame(interventions)
+    date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    df.to_csv('./data/interventions_' + date + '.csv')
     vorarlberg_scenario()
 
 

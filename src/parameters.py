@@ -9,14 +9,14 @@ pop_file = os.path.join(data_base_path, "population.pop")
 
 pop_size = 388711
 pop_type = 'synthpops'
-pop_infected = 80
+pop_infected = 90
 start_date = '2020-03-01'
-end_date = '2020-10-27'
+end_date = '2020-10-31'
 
 
 """Scenario metaparameters"""
 scenario_metapars = dict(
-    n_runs=5,  # Number of parallel runs; change to 3 for quick, 11 for real
+    n_runs=11,  # Number of parallel runs; change to 3 for quick, 11 for real
     noise=0.1,  # Use noise, optionally
     noisepar='beta',
     rand_seed=1,
