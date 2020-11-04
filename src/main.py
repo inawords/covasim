@@ -5,6 +5,18 @@ from src.vorarlberg_simulation import *
 from src.examples import *
 from src.interventions import *
 
+overview_plots = [
+            'cum_infections',
+            'cum_deaths',
+            'cum_diagnoses',
+            'new_infections',
+            'new_deaths',
+            'new_diagnoses',
+            'n_infectious',
+            'n_quarantined',
+            'r_eff',
+            ]
+
 
 def vorarlberg_real_sim():
     """
@@ -25,24 +37,24 @@ def vorarlberg_simulation_extended():
 def vorarlberg_scenario():
     sim = create_vorarlberg_sim(
         interventions=interventions,
-        end_day='2020-11-03',
+        end_day='2020-10-31',
     )
     scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenarios)
     scenario.run(verbose=True)
-    scenario.plot(do_show=True)
+    scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 
 
 def main():
-    sim = vorarlberg_simulation_extended()
+    # sim = vorarlberg_simulation_extended()
     # sim = vorarlberg_real_sim()
-    sim.run(verbose=True)
+    # sim.run(verbose=True)
     # fit = cv.Fit(sim)
     # fit.plot()
     # agehist = sim.make_age_histogram()
     # agehist.plot()
-    simple_plot(sim)
+    # simple_plot(sim)
 
-    # vorarlberg_scenario()
+    vorarlberg_scenario()
 
 
 if __name__ == '__main__':

@@ -16,7 +16,7 @@ end_date = '2020-10-27'
 
 """Scenario metaparameters"""
 scenario_metapars = dict(
-    n_runs=3,  # Number of parallel runs; change to 3 for quick, 11 for real
+    n_runs=5,  # Number of parallel runs; change to 3 for quick, 11 for real
     noise=0.1,  # Use noise, optionally
     noisepar='beta',
     rand_seed=1,

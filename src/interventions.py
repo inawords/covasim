@@ -25,7 +25,7 @@ real testing data is used in this interventsions
 """
 interventions = [
     # Testing
-    cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3, symp_test=625), # CAN'T TOUCH THIS --> Hammer Zeit
+    cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3, symp_test=715), # CAN'T TOUCH THIS --> Hammer Zeit
     cv.test_num(start_day=days('2020-08-01'), daily_tests=daily_tests_august, test_delay=2, symp_test=825),
     cv.test_num(start_day=days('2020-09-01'), daily_tests=daily_tests_september, test_delay=3, symp_test=825),
     cv.test_num(start_day=days('2020-10-01'), daily_tests=daily_tests_october, test_delay=4, symp_test=300),
