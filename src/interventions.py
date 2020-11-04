@@ -68,6 +68,7 @@ interventions = [
         [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening],
         [0.8,       0.4,                    0.72,            0.9],
         layers='c'),
+
     # Tracing
     cv.contact_tracing(start_day=days('2020-03-01'),
                        trace_probs={'s': 0.1, 'h': 0.4, 'w': 0.1, 'c': 0.05},
