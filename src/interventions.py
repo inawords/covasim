@@ -4,7 +4,6 @@ from src.utils.date import *
 from src.parameters import *
 from src.data.testing import *
 
-# daily test data until 2020-10-19
 daily_tests_until_july = daily_tests_march + daily_tests_april + daily_tests_may + daily_tests_june + daily_tests_july
 
 # starting days of interventions
@@ -21,7 +20,7 @@ contact_tracing = days('2020-11-01')
 """
 use `clip_edges` to simulate reduced contact between people
 use `change_beta` to simulate reduced transmission due to MNS, more hygiene, etc
-real testing data is used in this interventsions
+real testing data is used in this interventions
 
 !! important: interventions will be applied in order of definition !! 
 --> result will be different if for example testing is applied before clipping edges or vice versa
@@ -45,16 +44,16 @@ interventions = [
     # school
     cv.clip_edges(
         [lockdown,  school_opening],
-        [0.2,      0.8],
+        [0.2,       0.8],
         layers='s'),
     cv.change_beta(
         [lockdown,  school_opening],
-        [0.8,         0.8],  # lockdown durch clip_edges realisiert - Ansteckung durch MNS auf 0.8
+        [0.8,       0.8],
         layers='s'),
     # work
     cv.clip_edges(
         [lockdown,  open_stores_with_mns,   reduced_mns, school_opening],
-        [0.5,      0.6,                    0.7,         0.9],
+        [0.5,       0.6,                    0.7,         0.9],
         layers='w'),
     cv.change_beta(
         [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening],

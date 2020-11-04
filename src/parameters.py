@@ -1,11 +1,14 @@
 import os
+import datetime
 
 data_base_path = "../data/vorarlberg"
 """data file created with data scraper, see also file in 'data/epi_data/corona-data"""
 real_data_csv = os.path.join(data_base_path, "Vorarlberg_ Austria.csv")
 """file containing population created with synthpops"""
 pop_file = os.path.join(data_base_path, "population.pop")
-
+"""file to backup interventions"""
+date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+intervention_file = os.path.join(data_base_path, "backups/interventions_" + date + '.csv')
 
 pop_size = 388711
 pop_type = 'synthpops'
