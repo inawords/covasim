@@ -1,8 +1,5 @@
-import covasim as cv
 import os.path
-from src.parameters import *
 from src.scenarios import *
-from src.data.testing import *
 
 
 # Sim options

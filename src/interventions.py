@@ -1,5 +1,3 @@
-import covasim as cv
-import numpy as np
 from src.utils.date import *
 from src.parameters import *
 from src.data.testing import *
@@ -25,51 +23,20 @@ real testing data is used in this interventions
 !! important: interventions will be applied in order of definition !! 
 --> result will be different if for example testing is applied before clipping edges or vice versa
 """
-interventions = [
-    # Testing
+testing = [
     cv.test_num(start_day=1, daily_tests=daily_tests_until_july, test_delay=3),
     cv.test_num(start_day=days('2020-08-01'), daily_tests=daily_tests_august, test_delay=2),
     cv.test_num(start_day=days('2020-09-01'), daily_tests=daily_tests_september, test_delay=3),
     cv.test_num(start_day=days('2020-10-01'), daily_tests=daily_tests_october, test_delay=4),
-    cv.test_num(start_day=days('2020-11-01'), daily_tests=daily_tests_november, test_delay=4, symp_test=750),
-    cv.test_num(start_day=days('2020-12-01'), daily_tests=daily_tests_december, test_delay=4, symp_test=750),
-    cv.test_num(start_day=days('2021-01-01'), daily_tests=daily_tests_january, test_delay=4, symp_test=750),
-    cv.test_num(start_day=days('2021-02-01'), daily_tests=daily_tests_february, test_delay=4, symp_test=750),
-    cv.test_num(start_day=days('2021-03-01'), daily_tests=daily_tests_march21, test_delay=4, symp_test=750),
-    cv.test_num(start_day=days('2021-04-01'), daily_tests=daily_tests_april21, test_delay=4, symp_test=750),
+    cv.test_num(start_day=days('2020-11-01'), end_day=days('2020-12-01'), daily_tests=daily_tests_november, test_delay=4, symp_test=750),
+    cv.test_num(start_day=days('2020-12-01'), end_day=days('2021-01-01'), daily_tests=daily_tests_december, test_delay=4, symp_test=750),
+    cv.test_num(start_day=days('2021-01-01'), end_day=days('2021-02-01'), daily_tests=daily_tests_january, test_delay=4, symp_test=750),
+    cv.test_num(start_day=days('2021-02-01'), end_day=days('2021-03-01'), daily_tests=daily_tests_february, test_delay=4, symp_test=750),
+    cv.test_num(start_day=days('2021-03-01'), end_day=days('2021-04-01'), daily_tests=daily_tests_march21, test_delay=4, symp_test=750),
+    cv.test_num(start_day=days('2021-04-01'), end_day=days('2021-05-01'), daily_tests=daily_tests_april21, test_delay=4, symp_test=750),
+]
 
-    # Je mehr Leute getestet werden umso mehr asymptotische Personen werden gefunden und die Ausbreitung kann
-    # eingeschränkt werden
-
-    # school
-    cv.clip_edges(
-        [lockdown,  school_opening],
-        [0.2,       0.8],
-        layers='s'),
-    cv.change_beta(
-        [lockdown,  school_opening],
-        [0.8,       0.8],
-        layers='s'),
-    # work
-    cv.clip_edges(
-        [lockdown,  open_stores_with_mns,   reduced_mns, school_opening],
-        [0.5,       0.6,                    0.7,         0.9],
-        layers='w'),
-    cv.change_beta(
-        [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening],
-        [0.5,       0.5,                    0.7,            0.85],
-        layers='w'),
-    # community
-    cv.clip_edges(
-        [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening],
-        [0.2,       0.6,                    0.7,            0.9],
-        layers='c'),
-    cv.change_beta(
-        [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening],
-        [0.8,       0.4,                    0.72,            0.9],
-        layers='c'),
-
-    # Tracing
+tracing = [
     cv.contact_tracing(start_day=days('2020-03-01'),
                        trace_probs={'s': 0.1, 'h': 0.4, 'w': 0.1, 'c': 0.05},
                        trace_time={'s': 2.0, 'h': 1.0, 'w': 2.0, 'c': 3.0}),
@@ -80,3 +47,99 @@ interventions = [
                        trace_probs={'s': 0.4, 'w': 0.4},
                        trace_time={'s': 1.0, 'w': 2.0}),
 ]
+
+beta_edges = [
+    # school
+    cv.clip_edges(
+        [lockdown, school_opening],
+        [0.2, 0.8],
+        layers='s'),
+    cv.change_beta(
+        [lockdown, school_opening],
+        [0.8, 0.8],
+        layers='s'),
+    # work
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.5, 0.6, 0.7, 0.9],
+        layers='w'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.5, 0.5, 0.7, 0.85],
+        layers='w'),
+    # community
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.2, 0.6, 0.7, 0.9],
+        layers='c'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.8, 0.4, 0.72, 0.9],
+        layers='c'),
+]
+
+beta_edges_bottom = [
+    # school
+    cv.clip_edges(
+        [lockdown, school_opening, contact_tracing],
+        [0.2, 0.8, 0],
+        layers='s'),
+    cv.change_beta(
+        [lockdown, school_opening, contact_tracing],
+        [0.8, 0.8, 0],
+        layers='s'),
+    # work
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening, contact_tracing],
+        [0.5, 0.6, 0.7, 0.9, 0],
+        layers='w'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening, contact_tracing],
+        [0.5, 0.5, 0.7, 0.85, 0],
+        layers='w'),
+    # community
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening, contact_tracing],
+        [0.2, 0.6, 0.7, 0.9, 0],
+        layers='c'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening, contact_tracing],
+        [0.8, 0.4, 0.72, 0.9, 0],
+        layers='c'),
+]
+
+beta_edges_home_office = [
+    # school
+    cv.clip_edges(
+        [lockdown, school_opening],
+        [0.2, 0.8],
+        layers='s'),
+    cv.change_beta(
+        [lockdown, school_opening],
+        [0.8, 0.8],
+        layers='s'),
+    # work
+    cv.clip_edges(
+        [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening, home_office],
+        [0.5,       0.6,                    0.7,            0.9,            0.5],
+        layers='w'),
+    cv.change_beta(
+        [lockdown,  open_stores_with_mns,   reduced_mns,    school_opening, home_office],
+        [0.5,       0.5,                    0.7,            0.85,           0.5],
+        layers='w'),
+    # community
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.2, 0.6, 0.7, 0.9],
+        layers='c'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.8, 0.4, 0.72, 0.9],
+        layers='c'),
+]
+
+interventions = testing + beta_edges + tracing
+interventions_worst_case = testing + beta_edges + tracing
+interventions_best_case = testing + beta_edges_bottom + tracing
+interventions_home_office = testing + beta_edges_home_office + tracing
+

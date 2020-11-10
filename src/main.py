@@ -1,9 +1,5 @@
-import covasim as cv
 import numpy as np
-import pandas as pd
-from src.utils.plotting import *
 from src.vorarlberg_simulation import *
-from src.examples import *
 from src.interventions import *
 from src.utils.utils import *
 
@@ -19,17 +15,20 @@ overview_plots = [
             'r_eff',
             ]
 
+end_date_real_data = '2020-10-31'
+end_date_sim = '2021-04-30'
+
 
 def vorarlberg_simulation():
     return create_vorarlberg_sim(
         interventions=interventions,
-        end_day='2020-10-31',
+        end_day=end_date_sim,
     )
 
 
 def vorarlberg_scenario():
     sim = vorarlberg_simulation()
-    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenarios)
+    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenario_home_office)
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 

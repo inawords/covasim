@@ -1,4 +1,3 @@
-from src.parameters import real_data_csv
 from src.utils.plotting import *
 from src.vorarlberg_simulation import *
 

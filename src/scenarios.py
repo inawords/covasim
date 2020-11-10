@@ -1,14 +1,32 @@
-import covasim as cv
-from src.interventions import interventions
+from src.interventions import *
 
 # Define the actual scenarios
 
-scenarios = {'homeOffice': {
-    'name': 'HomeOffice',
-    'pars': {
-        'interventions': interventions
+scenario_best_case = {
+    'best case': {
+        'name': 'best case',
+        'pars': {
+            'interventions': interventions_best_case
+        },
+    },
+}
+
+scenario_worst_case = {
+    'worst case': {
+        'name': 'worst case',
+        'pars': {
+            'interventions': interventions_worst_case
+        }
     }
-},
+}
+
+scenario_home_office = {
+    'homeOffice': {
+        'name': 'HomeOffice',
+        'pars': {
+            'interventions': interventions_home_office
+        },
+    },
     # 'distance': {
     #   'name':'Social distancing',
     #   'pars': {
