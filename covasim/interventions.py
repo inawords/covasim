@@ -603,7 +603,7 @@ class test_num(Intervention):
         sensitivity (float) : test sensitivity (default 100%, i.e. no false negatives)
         loss_prob   (float) : probability of the person being lost-to-follow-up (default 0%, i.e. no one lost to follow-up)
         test_delay  (int)   : days for test result to be known (default 0, i.e. results available instantly)
-        start_day   (int)   : day the intervention starts (default: 0, i.e. first day of the simulation)
+        start_day   (int or str)   : day the intervention starts (default: 0, i.e. first day of the simulation)
         end_day     (int)   : day the intervention ends
         swab_delay  (dict)  : distribution for the delay from onset to swab; if this is present, it is used instead of test_delay
         kwargs      (dict)  : passed to Intervention()
