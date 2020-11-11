@@ -137,6 +137,17 @@ beta_edges_home_office_school = [
         layers='s'),
 ]
 
+beta_edges_work = [
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.5, 0.6, 0.7, 0.85],
+        layers='w'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
+        [0.5, 0.5, 0.7, 0.8],
+        layers='w'),
+]
+
 beta_edges_home_office_community = [
     # community
     cv.clip_edges(
@@ -179,6 +190,26 @@ def beta_edges_home_office(beta_work, clip_work):
 def interventions_home_office(beta, edges):
     return (testing_real + testing_sim + (
             beta_edges_home_office_school + beta_edges_home_office_community + beta_edges_home_office(beta, edges))
+            + tracing)
+
+
+def calc_beta_edges_community(beta, edges):
+    return [
+        # community
+        cv.clip_edges(
+            [lockdown, open_stores_with_mns, reduced_mns, holiday_start, home_office],
+            [0.2, 0.6, 0.7, 0.82, edges],
+            layers='c'),
+        cv.change_beta(
+            [lockdown, open_stores_with_mns, reduced_mns, holiday_start, home_office],
+            [0.8, 0.4, 0.72, 0.82, beta],
+            layers='c'),
+    ]
+
+
+def interventions_community_adapted(beta, edges):
+    return (testing_real + testing_sim + (
+            beta_edges_home_office_school + beta_edges_work + calc_beta_edges_community(beta, edges))
             + tracing)
 
 

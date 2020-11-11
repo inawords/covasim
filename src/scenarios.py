@@ -36,22 +36,10 @@ scenario_home_office = {
             'interventions': interventions_home_office(0.2, 0.2)
         },
     },
-    'homeOffice_0.3': {
-        'name': 'Beta-Edges 0.3',
-        'pars': {
-            'interventions': interventions_home_office(0.3, 0.3)
-        },
-    },
     'homeOffice_0.4': {
         'name': 'Beta-Edges 0.4',
         'pars': {
             'interventions': interventions_home_office(0.4, 0.4)
-        },
-    },
-    'homeOffice_0.5': {
-        'name': 'Beta-Edges 0.5',
-        'pars': {
-            'interventions': interventions_home_office(0.5, 0.5)
         },
     },
     'homeOffice_0.6': {
@@ -60,31 +48,37 @@ scenario_home_office = {
             'interventions': interventions_home_office(0.6, 0.6)
         },
     },
-    'homeOffice_0.7': {
-        'name': 'Beta-Edges 0.7',
-        'pars': {
-            'interventions': interventions_home_office(0.7, 0.7)
-        },
-    },
     'homeOffice_0.8': {
         'name': 'Beta-Edges 0.8',
         'pars': {
             'interventions': interventions_home_office(0.8, 0.8)
         },
     },
-    # 'distance': {
-    #   'name':'Social distancing',
-    #   'pars': {
-    #       'interventions': cv.change_beta(days=start_day, changes=0.7)
-    #       }
-    #   },
-    # 'ttq': {
-    #   'name':'Test-trace-quarantine',
-    #   'pars': {
-    #       'interventions': [
-    #
-    #             # cv.contact_tracing(start_day=start_day, trace_probs=0.8, trace_time=1.0),
-    #         ]
-    #       }
-    #   },
+}
+
+scenario_community = {
+    'community_0.2': {
+        'name': 'Beta-Edges 0.2',
+        'pars': {
+            'interventions': interventions_community_adapted(0.2, 0.8)
+        },
+    },
+    'community_0.4': {
+        'name': 'Beta-Edges 0.4',
+        'pars': {
+            'interventions': interventions_community_adapted(0.4, 0.8)
+        },
+    },
+    'community_0.6': {
+        'name': 'Beta-Edges 0.6',
+        'pars': {
+            'interventions': interventions_community_adapted(0.6, 0.8)
+        },
+    },
+    'community_0.8': {
+        'name': 'Beta 0.8',
+        'pars': {
+            'interventions': interventions_community_adapted(0.8, 0.8)
+        },
+    },
 }
