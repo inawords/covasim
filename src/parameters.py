@@ -23,7 +23,7 @@ scenario_metapars = dict(
     noise=0.1,  # Use noise, optionally
     noisepar='beta',
     rand_seed=1,
-    quantiles={'low': 0.4, 'high': 0.6},
+    quantiles={'low': 0.45, 'high': 0.55},
 )
 
 

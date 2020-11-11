@@ -1,7 +1,7 @@
+import copy
+
 from src.utils.date import *
 from src.data.testing import *
-
-daily_tests_until_july = daily_tests_march + daily_tests_april + daily_tests_may + daily_tests_june + daily_tests_july
 
 # starting days of interventions
 lockdown = '2020-03-16'
@@ -11,8 +11,7 @@ holiday_start = '2020-08-01'
 school_opening = '2020-9-14'
 
 # our own interventions
-home_office = '2020-11-01'
-contact_tracing = '2020-11-01'
+sim_intervention = '2020-11-01'
 
 """
 use `clip_edges` to simulate reduced contact between people
@@ -22,9 +21,15 @@ real testing data is used in this interventions
 !! important: interventions will be applied in order of definition !! 
 --> result will be different if for example testing is applied before clipping edges or vice versa
 """
+
+""" TESTING """
 test_delay = 3
 testing_real = [  # because `daily_tests` is an array, this doesn't need to be a sequence or have end_days
-    cv.test_num(start_day='2020-03-01', test_delay=test_delay, daily_tests=daily_tests_until_july),
+    cv.test_num(start_day='2020-03-01', test_delay=test_delay, daily_tests=daily_tests_march),
+    cv.test_num(start_day='2020-04-01', test_delay=test_delay, daily_tests=daily_tests_april),
+    cv.test_num(start_day='2020-05-01', test_delay=test_delay, daily_tests=daily_tests_may),
+    cv.test_num(start_day='2020-06-01', test_delay=test_delay, daily_tests=daily_tests_june),
+    cv.test_num(start_day='2020-07-01', test_delay=test_delay, daily_tests=daily_tests_july),
     cv.test_num(start_day='2020-08-01', test_delay=test_delay, daily_tests=daily_tests_august),
     cv.test_num(start_day='2020-09-01', test_delay=test_delay, daily_tests=daily_tests_september),
     cv.test_num(start_day='2020-10-01', test_delay=test_delay, daily_tests=daily_tests_october),
@@ -47,7 +52,37 @@ testing_sim = [cv.sequence(
         cv.test_num(test_delay=test_delay, daily_tests=daily_tests_april21),
     ])]
 
-tracing = [cv.sequence(
+
+def create_sequence_intervention(data):
+    return [cv.sequence(
+        days=data['days'],
+        interventions=data['interventions']
+    )]
+
+
+def create_edges_beta(data):
+    return [
+        cv.clip_edges(
+            data['days'],
+            data['edges'],
+            layers=data['layers']),
+        cv.change_beta(
+            data['days'],
+            data['beta'],
+            layers=data['layers']),
+    ]
+
+
+def add_edges_beta(data, date, edges, beta):
+    data_copy = copy.deepcopy(data)
+    data_copy['days'].append(date)
+    data_copy['edges'].append(edges)
+    data_copy['beta'].append(beta)
+    return data_copy
+
+
+""" TRACING """
+tracing_data = dict(
     days=[
         '2020-03-01',
         lockdown,
@@ -63,158 +98,71 @@ tracing = [cv.sequence(
         cv.contact_tracing(  # school opening
             trace_probs={'s': 0.4, 'w': 0.4},
             trace_time={'s': 1.0, 'w': 2.0}),
-    ])]
-
-beta_edges = [
-    # school
-    cv.clip_edges(
-        [lockdown, school_opening],
-        [0.2, 0.78],
-        layers='s'),
-    cv.change_beta(
-        [lockdown, school_opening],
-        [0.8, 0.8],
-        layers='s'),
-    # work
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
-        [0.5, 0.6, 0.7, 0.85],
-        layers='w'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
-        [0.5, 0.5, 0.7, 0.8],
-        layers='w'),
-    # community
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, holiday_start],
-        [0.2, 0.6, 0.7, 0.82],
-        layers='c'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, holiday_start],
-        [0.8, 0.4, 0.72, 0.82],
-        layers='c'),
-]
-
-beta_edges_best_case = [
-    # school
-    cv.clip_edges(
-        [lockdown, school_opening, home_office],
-        [0.2, 0.78, 0],
-        layers='s'),
-    cv.change_beta(
-        [lockdown, school_opening, home_office],
-        [0.8, 0.8, 0],
-        layers='s'),
-    # work
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-        [0.5, 0.6, 0.7, 0.85, 0],
-        layers='w'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-        [0.5, 0.5, 0.7, 0.8, 0],
-        layers='w'),
-    # community
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, holiday_start, home_office],
-        [0.2, 0.6, 0.7, 0.82, 0],
-        layers='c'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, holiday_start, home_office],
-        [0.8, 0.4, 0.72, 0.82, 0],
-        layers='c'),
-]
-
-beta_edges_home_office_school = [
-    # school
-    cv.clip_edges(
-        [lockdown, school_opening],
-        [0.2, 0.78],
-        layers='s'),
-    cv.change_beta(
-        [lockdown, school_opening],
-        [0.8, 0.8],
-        layers='s'),
-]
-
-beta_edges_work = [
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
-        [0.5, 0.6, 0.7, 0.85],
-        layers='w'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening],
-        [0.5, 0.5, 0.7, 0.8],
-        layers='w'),
-]
-
-beta_edges_home_office_community = [
-    # community
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, holiday_start],
-        [0.2, 0.6, 0.7, 0.82],
-        layers='c'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, holiday_start],
-        [0.8, 0.4, 0.72, 0.82],
-        layers='c'),
-]
-
-beta_edges_home_office_work = [
-    # work
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-        [0.5, 0.6, 0.7, 0.85, 0.5],
-        layers='w'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-        [0.5, 0.5, 0.7, 0.8, 0.5],
-        layers='w'),
-]
-
-
-def beta_edges_home_office(beta_work, clip_work):
-    return [
-        # work
-        cv.clip_edges(
-            [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-            [0.5, 0.6, 0.7, 0.85, clip_work],
-            layers='w'),
-        cv.change_beta(
-            [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-            [0.5, 0.5, 0.7, 0.8, beta_work],
-            layers='w'),
     ]
+)
+tracing = create_sequence_intervention(tracing_data)
+
+""" EDGES & BETA """
+school_data = dict(
+    days=[lockdown, school_opening],
+    edges=[0.2, 0.78],
+    beta=[0.8, 0.8],
+    layers='s'
+)
+beta_edges_school = create_edges_beta(school_data)
+
+work_data = dict(
+    days=[lockdown, open_stores_with_mns, reduced_mns, school_opening],
+    edges=[0.5, 0.6, 0.7, 0.85],
+    beta=[0.5, 0.5, 0.7, 0.8],
+    layers='w'
+)
+beta_edges_work = create_edges_beta(work_data)
+
+community_data = dict(
+    days=[lockdown, open_stores_with_mns, reduced_mns, holiday_start],
+    edges=[0.2, 0.6, 0.7, 0.82],
+    beta=[0.8, 0.4, 0.72, 0.82],
+    layers='c'
+)
+beta_edges_community = create_edges_beta(community_data)
 
 
-def interventions_home_office(beta, edges):
-    return (testing_real + testing_sim + (
-            beta_edges_home_office_school + beta_edges_home_office_community + beta_edges_home_office(beta, edges))
-            + tracing)
+def create_beta_edges_best_case():
+    school = create_edges_beta(add_edges_beta(school_data, sim_intervention, 0, 0))
+    work = create_edges_beta(add_edges_beta(work_data, sim_intervention, 0, 0))
+    community = create_edges_beta(add_edges_beta(community_data, sim_intervention, 0, 0))
+    return school + work + community
 
 
-def calc_beta_edges_community(beta, edges):
-    return [
-        # community
-        cv.clip_edges(
-            [lockdown, open_stores_with_mns, reduced_mns, holiday_start, home_office],
-            [0.2, 0.6, 0.7, 0.82, edges],
-            layers='c'),
-        cv.change_beta(
-            [lockdown, open_stores_with_mns, reduced_mns, holiday_start, home_office],
-            [0.8, 0.4, 0.72, 0.82, beta],
-            layers='c'),
-    ]
+def create_interventions_home_office(beta, edges):
+    return (
+            testing_real + testing_sim +
+            beta_edges_school +
+            create_edges_beta(add_edges_beta(work_data, sim_intervention, edges, beta)) +
+            beta_edges_community +
+            tracing)
 
 
-def interventions_community_adapted(beta, edges):
-    return (testing_real + testing_sim + (
-            beta_edges_home_office_school + beta_edges_work + calc_beta_edges_community(beta, edges))
-            + tracing)
+def create_interventions_restricted_community(beta, edges):
+    return (
+            testing_real + testing_sim +
+            beta_edges_school + beta_edges_work +
+            create_edges_beta(add_edges_beta(community_data, sim_intervention, edges, beta)) +
+            tracing)
 
 
-interventions = testing_real + beta_edges + tracing
-interventions_worst_case = testing_real + testing_sim + beta_edges + tracing
-interventions_best_case = testing_real + testing_sim + beta_edges_best_case + tracing
-#interventions_home_office = testing_real + testing_sim + (beta_edges_home_office_school +
-#                            beta_edges_home_office_community + beta_edges_home_office_work) + tracing
+interventions = (
+        testing_real +
+        beta_edges_school + beta_edges_work + beta_edges_community +
+        tracing)
+
+interventions_worst_case = (
+        testing_real + testing_sim +
+        beta_edges_school + beta_edges_work + beta_edges_community +
+        tracing)
+
+interventions_best_case = (
+        testing_real + testing_sim +
+        create_beta_edges_best_case() +
+        tracing)

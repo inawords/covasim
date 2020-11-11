@@ -11,6 +11,7 @@ overview_plots = [
             ]
 
 end_date_real_data = '2020-10-31'
+end_date_compare = '2020-12-31'
 end_date_sim = '2021-04-30'
 
 
@@ -26,22 +27,6 @@ def vorarlberg_scenario():
     scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenario_community)
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
-
-
-def print_mean_tests():
-    print('mean_daily_tests_march', np.mean(daily_tests_march))
-    print('mean_daily_tests_april', np.mean(daily_tests_april))
-    print('mean_daily_tests_may', np.mean(daily_tests_may))
-    print('mean_daily_tests_june', np.mean(daily_tests_june))
-    print('mean_daily_tests_july', np.mean(daily_tests_july))
-    print('mean_daily_tests_august', np.mean(daily_tests_august))
-    print('mean_daily_tests_october', np.mean(daily_tests_october))
-    print('mean_daily_tests_november', np.mean(daily_tests_november))
-    print('mean_daily_tests_december', np.mean(daily_tests_december))
-    print('mean_daily_tests_january', np.mean(daily_tests_january))
-    print('mean_daily_tests_february', np.mean(daily_tests_february))
-    print('mean_daily_tests_march21', np.mean(daily_tests_march21))
-    print('mean_daily_tests_april21', np.mean(daily_tests_april21))
 
 
 def main():
