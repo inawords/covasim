@@ -7,11 +7,6 @@ overview_plots = [
             'cum_infections',
             'cum_deaths',
             'cum_diagnoses',
-            'new_infections',
-            'new_deaths',
-            'new_diagnoses',
-            'n_infectious',
-            'n_quarantined',
             'r_eff',
             ]
 
@@ -28,7 +23,7 @@ def vorarlberg_simulation():
 
 def vorarlberg_scenario():
     sim = vorarlberg_simulation()
-    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenario_best_case)
+    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenario_home_office)
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 
@@ -50,7 +45,7 @@ def print_mean_tests():
 
 
 def main():
-    backup_interventions(interventions)
+    #backup_interventions(interventions)
     vorarlberg_scenario()
 
 

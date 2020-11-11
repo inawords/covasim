@@ -95,7 +95,7 @@ beta_edges = [
         layers='c'),
 ]
 
-beta_edges_bottom = [
+beta_edges_best_case = [
     # school
     cv.clip_edges(
         [lockdown, school_opening, home_office],
@@ -125,7 +125,7 @@ beta_edges_bottom = [
         layers='c'),
 ]
 
-beta_edges_home_office = [
+beta_edges_home_office_school = [
     # school
     cv.clip_edges(
         [lockdown, school_opening],
@@ -135,15 +135,9 @@ beta_edges_home_office = [
         [lockdown, school_opening],
         [0.8, 0.8],
         layers='s'),
-    # work
-    cv.clip_edges(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-        [0.5, 0.6, 0.7, 0.85, 0.5],
-        layers='w'),
-    cv.change_beta(
-        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
-        [0.5, 0.5, 0.7, 0.8, 0.5],
-        layers='w'),
+]
+
+beta_edges_home_office_community = [
     # community
     cv.clip_edges(
         [lockdown, open_stores_with_mns, reduced_mns, holiday_start],
@@ -155,7 +149,41 @@ beta_edges_home_office = [
         layers='c'),
 ]
 
+beta_edges_home_office_work = [
+    # work
+    cv.clip_edges(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
+        [0.5, 0.6, 0.7, 0.85, 0.5],
+        layers='w'),
+    cv.change_beta(
+        [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
+        [0.5, 0.5, 0.7, 0.8, 0.5],
+        layers='w'),
+]
+
+
+def beta_edges_home_office(beta_work, clip_work):
+    return [
+        # work
+        cv.clip_edges(
+            [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
+            [0.5, 0.6, 0.7, 0.85, clip_work],
+            layers='w'),
+        cv.change_beta(
+            [lockdown, open_stores_with_mns, reduced_mns, school_opening, home_office],
+            [0.5, 0.5, 0.7, 0.8, beta_work],
+            layers='w'),
+    ]
+
+
+def interventions_home_office(beta, edges):
+    return (testing_real + testing_sim + (
+            beta_edges_home_office_school + beta_edges_home_office_community + beta_edges_home_office(beta, edges))
+            + tracing)
+
+
 interventions = testing_real + beta_edges + tracing
 interventions_worst_case = testing_real + testing_sim + beta_edges + tracing
-interventions_best_case = testing_real + testing_sim + beta_edges_bottom + tracing
-interventions_home_office = testing_real + testing_sim + beta_edges_home_office + tracing
+interventions_best_case = testing_real + testing_sim + beta_edges_best_case + tracing
+#interventions_home_office = testing_real + testing_sim + (beta_edges_home_office_school +
+#                            beta_edges_home_office_community + beta_edges_home_office_work) + tracing
