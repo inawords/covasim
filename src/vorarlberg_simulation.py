@@ -1,5 +1,6 @@
 import os.path
 from src.scenarios import *
+from src.parameters import *
 
 
 # Sim options

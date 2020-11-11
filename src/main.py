@@ -28,7 +28,7 @@ def vorarlberg_simulation():
 
 def vorarlberg_scenario():
     sim = vorarlberg_simulation()
-    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenario_home_office)
+    scenario = cv.Scenarios(sim=sim, basepars=basepars, metapars=scenario_metapars, scenarios=scenario_best_case)
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 

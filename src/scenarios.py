@@ -2,6 +2,15 @@ from src.interventions import *
 
 # Define the actual scenarios
 
+scenario_current_situation = {
+    'current situation': {
+        'name': 'current situation',
+        'pars': {
+            'interventions': interventions
+        },
+    },
+}
+
 scenario_best_case = {
     'best case': {
         'name': 'best case',
