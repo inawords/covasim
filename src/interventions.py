@@ -137,6 +137,15 @@ def create_beta_edges_best_case():
     return school + work + community
 
 
+def create_interventions_mixed(beta, edges, intervention_start):
+    return (
+            testing_real + testing_sim +
+            beta_edges_school +
+            create_edges_beta(add_edges_beta(work_data, intervention_start, edges, beta)) +
+            create_edges_beta(add_edges_beta(community_data, intervention_start, edges, beta)) +
+            tracing)
+
+
 def create_interventions_home_office(beta, edges, intervention_start):
     return (
             testing_real + testing_sim +
