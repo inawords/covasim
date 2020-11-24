@@ -1,6 +1,6 @@
 import os.path
-from src.scenarios import *
 from src.parameters import *
+import covasim as cv
 
 
 # Sim options

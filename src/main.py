@@ -1,7 +1,5 @@
-import numpy as np
 from src.vorarlberg_simulation import *
-from src.interventions import *
-from src.utils.utils import *
+from src.scenarios.work_vs_community.scenarios import *
 
 overview_plots = [
             'cum_infections',
@@ -11,7 +9,6 @@ overview_plots = [
             ]
 
 end_date_real_data = '2020-10-31'
-end_date_compare = '2020-12-31'
 end_date_sim = '2021-04-30'
 
 
@@ -24,17 +21,18 @@ def vorarlberg_simulation():
 
 def vorarlberg_scenario():
     sim = vorarlberg_simulation()
+    args = HOME_OFFICE['parameter_influence'][0]
     scenario = cv.Scenarios(
         sim=sim,
         basepars=basepars,
         metapars=scenario_metapars,
-        scenarios=parameter_influence(parameter='both', layer='w'))
+        scenarios=work_community_scenario(**args))
+
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 
 
 def main():
-    #backup_interventions(interventions)
     vorarlberg_scenario()
 
 

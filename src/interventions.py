@@ -1,6 +1,5 @@
 import copy
-
-from src.utils.date import *
+import covasim as cv
 from src.data.testing import *
 
 # starting days of interventions
