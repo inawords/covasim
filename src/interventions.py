@@ -12,6 +12,8 @@ school_opening = '2020-9-14'
 
 # our own interventions
 sim_intervention = '2020-11-01'
+sim_intervention_october = '2020-10-01'
+sim_intervention_after_school = '2020-9-15'
 
 """
 use `clip_edges` to simulate reduced contact between people
@@ -135,20 +137,29 @@ def create_beta_edges_best_case():
     return school + work + community
 
 
-def create_interventions_home_office(beta, edges):
+def create_interventions_mixed(beta, edges, intervention_start):
     return (
             testing_real + testing_sim +
             beta_edges_school +
-            create_edges_beta(add_edges_beta(work_data, sim_intervention, edges, beta)) +
+            create_edges_beta(add_edges_beta(work_data, intervention_start, edges, beta)) +
+            create_edges_beta(add_edges_beta(community_data, intervention_start, edges, beta)) +
+            tracing)
+
+
+def create_interventions_home_office(beta, edges, intervention_start):
+    return (
+            testing_real + testing_sim +
+            beta_edges_school +
+            create_edges_beta(add_edges_beta(work_data, intervention_start, edges, beta)) +
             beta_edges_community +
             tracing)
 
 
-def create_interventions_restricted_community(beta, edges):
+def create_interventions_restricted_community(beta, edges, intervention_start):
     return (
             testing_real + testing_sim +
             beta_edges_school + beta_edges_work +
-            create_edges_beta(add_edges_beta(community_data, sim_intervention, edges, beta)) +
+            create_edges_beta(add_edges_beta(community_data, intervention_start, edges, beta)) +
             tracing)
 
 
