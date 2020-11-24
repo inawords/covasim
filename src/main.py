@@ -1,4 +1,7 @@
 from src.vorarlberg_simulation import *
+from src.scenarios.current_situation.scenarios import *
+from src.scenarios.current_situation.interventions import INT_CURRENT_SITUATION
+from src.scenarios.best_worst_case.scenarios import *
 from src.scenarios.work_vs_community.scenarios import *
 
 overview_plots = [
@@ -14,19 +17,18 @@ end_date_sim = '2021-04-30'
 
 def vorarlberg_simulation():
     return create_vorarlberg_sim(
-        interventions=interventions,
+        interventions=INT_CURRENT_SITUATION,
         end_day=end_date_sim,
     )
 
 
 def vorarlberg_scenario():
     sim = vorarlberg_simulation()
-    args = HOME_OFFICE['parameter_influence'][0]
     scenario = cv.Scenarios(
         sim=sim,
         basepars=basepars,
         metapars=scenario_metapars,
-        scenarios=work_community_scenario(**args))
+        scenarios=work_community_scenario(**(SOCIAL_DISTANCING['parameter_influence'][0])))
 
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)

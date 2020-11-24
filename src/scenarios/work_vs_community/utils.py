@@ -1,15 +1,16 @@
 from src.interventions import *
+from src.scenarios.work_vs_community.interventions import *
 
 PARAMETER_RANGE = [0.2, 0.4, 0.6]  # 0,0 is best case, 0.8 is worst case scenario
 PARAMETER_CONST = [0.8] * len(PARAMETER_RANGE)
 
 LABELS = dict(
-    c='restricted_community',
+    c='social_distancing',
     w='home_office',
     cw='mixed',
 )
 
-INTERVENTION_START = ['2020-11-01', '2020-10-01', '2020-09-15']
+INTERVENTION_START = [sim_intervention, sim_intervention_october, sim_intervention_after_school]
 
 COMBINATIONS = dict(
     edges=dict(
@@ -27,7 +28,7 @@ COMBINATIONS = dict(
 )
 
 INTERVENTION_FUNC = dict(
-    c=create_interventions_restricted_community,
+    c=create_interventions_social_distancing,
     w=create_interventions_home_office,
     cw=create_interventions_mixed,
 )

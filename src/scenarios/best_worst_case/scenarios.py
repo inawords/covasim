@@ -1,4 +1,4 @@
-from src.interventions import *
+from src.scenarios.best_worst_case.interventions import *
 
 """
 Example Usage:
@@ -7,38 +7,28 @@ scenario = cv.Scenarios(
         sim=sim,
         basepars=basepars,
         metapars=scenario_metapars,
-        scenarios=scenario_best_case)
+        scenarios=SCEN_BEST_CASE)
 """
 
-scenario_best_case = {
+SCEN_BEST_CASE = {
     'best_case': {
         'name': 'best case',
         'pars': {
-            'interventions': interventions_best_case
+            'interventions': INT_BEST_CASE
         },
     },
 }
 
-scenario_worst_case = {
+SCEN_WORST_CASE = {
     'worst_case': {
         'name': 'worst case',
         'pars': {
-            'interventions': interventions_worst_case
+            'interventions': INT_WORST_CASE
         }
     }
 }
 
-combined = {
-    'best_case': {
-        'name': 'best case',
-        'pars': {
-            'interventions': interventions_best_case
-        },
-    },
-    'worst_case': {
-        'name': 'worst case',
-        'pars': {
-            'interventions': interventions_worst_case
-        }
-    }
+SCEN_BEST_WORST = {
+    **SCEN_BEST_CASE,
+    **SCEN_WORST_CASE,
 }

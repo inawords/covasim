@@ -129,50 +129,13 @@ community_data = dict(
 beta_edges_community = create_edges_beta(community_data)
 
 
-def create_beta_edges_best_case():
-    school = create_edges_beta(add_edges_beta(school_data, sim_intervention, 0, 0))
-    work = create_edges_beta(add_edges_beta(work_data, sim_intervention, 0, 0))
-    community = create_edges_beta(add_edges_beta(community_data, sim_intervention, 0, 0))
-    return school + work + community
-
-
-def create_interventions_mixed(beta, edges, intervention_start):
-    return (
-            testing_real + testing_sim +
-            beta_edges_school +
-            create_edges_beta(add_edges_beta(work_data, intervention_start, edges, beta)) +
-            create_edges_beta(add_edges_beta(community_data, intervention_start, edges, beta)) +
-            tracing)
-
-
-def create_interventions_home_office(beta, edges, intervention_start):
-    return (
-            testing_real + testing_sim +
-            beta_edges_school +
-            create_edges_beta(add_edges_beta(work_data, intervention_start, edges, beta)) +
-            beta_edges_community +
-            tracing)
-
-
-def create_interventions_restricted_community(beta, edges, intervention_start):
-    return (
-            testing_real + testing_sim +
-            beta_edges_school + beta_edges_work +
-            create_edges_beta(add_edges_beta(community_data, intervention_start, edges, beta)) +
-            tracing)
-
-
-interventions = (
-        testing_real +
-        beta_edges_school + beta_edges_work + beta_edges_community +
-        tracing)
-
-interventions_worst_case = (
-        testing_real + testing_sim +
-        beta_edges_school + beta_edges_work + beta_edges_community +
-        tracing)
-
-interventions_best_case = (
-        testing_real + testing_sim +
-        create_beta_edges_best_case() +
-        tracing)
+def create_interventions(
+        testing=testing_real+testing_sim,
+        school=beta_edges_school,
+        work=beta_edges_work,
+        community=beta_edges_community,
+        contact_tracing=tracing,
+):
+    return (testing +
+            school + work + community +
+            contact_tracing)

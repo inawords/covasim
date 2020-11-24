@@ -1,4 +1,4 @@
-from src.interventions import *
+from src.scenarios.current_situation.interventions import *
 
 """
 Example Usage:
@@ -7,14 +7,14 @@ scenario = cv.Scenarios(
         sim=sim,
         basepars=basepars,
         metapars=scenario_metapars,
-        scenarios=scenario_current_situation)
+        scenarios=SCEN_CURRENT_SITUATION)
 """
 
-scenario_current_situation = {
-    'current situation': {
+SCEN_CURRENT_SITUATION = {
+    'current_situation': {
         'name': 'current situation',
         'pars': {
-            'interventions': interventions
+            'interventions': INT_CURRENT_SITUATION
         },
     },
 }
