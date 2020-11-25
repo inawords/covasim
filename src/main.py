@@ -28,9 +28,10 @@ def vorarlberg_scenario():
         sim=sim,
         basepars=basepars,
         metapars=scenario_metapars,
-        scenarios=work_community_scenario(**(HOME_OFFICE['time_influence'][1])))
+        scenarios=work_community_scenario(**(MIXED['time_influence'][0])))
 
     scenario.run(verbose=True)
+    # scenario.to_excel(filename=result_file_xlsx)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
 
 

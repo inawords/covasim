@@ -28,7 +28,7 @@ def work_community_scenario(parameter='edges', layer='c', start_date=INTERVENTIO
 
 HOME_OFFICE = dict(
     parameter_influence=[
-        dict(layer='w', start_date=INTERVENTION_START[0], parameter='both'),
+        dict(layer='w', start_date=INTERVENTION_START[0], parameter='both'),  # winner
         dict(layer='w', start_date=INTERVENTION_START[0], parameter='beta'),
         dict(layer='w', start_date=INTERVENTION_START[0], parameter='edges'),
     ],
@@ -43,7 +43,7 @@ SOCIAL_DISTANCING = dict(
     parameter_influence=[
         dict(layer='c', start_date=INTERVENTION_START[0], parameter='both'),
         dict(layer='c', start_date=INTERVENTION_START[0], parameter='beta'),
-        dict(layer='c', start_date=INTERVENTION_START[0], parameter='edges'),
+        dict(layer='c', start_date=INTERVENTION_START[0], parameter='edges'),  # winner
     ],
     time_influence=[
         dict(layer='c', start_date=INTERVENTION_START[0], parameter='edges'),
@@ -52,6 +52,10 @@ SOCIAL_DISTANCING = dict(
     ]
 )
 
-MIXED = [
-    dict(layer='cw', start_date=INTERVENTION_START[0], parameter='both'),
-]
+MIXED = dict(
+    time_influence=[
+        dict(layer='cw', start_date=INTERVENTION_START[0], parameter='both'),
+        dict(layer='cw', start_date=INTERVENTION_START[1], parameter='both'),
+        dict(layer='cw', start_date=INTERVENTION_START[2], parameter='both'),
+    ]
+)
