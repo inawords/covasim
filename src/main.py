@@ -28,7 +28,7 @@ def vorarlberg_scenario():
         sim=sim,
         basepars=basepars,
         metapars=scenario_metapars,
-        scenarios=work_community_scenario(**(SOCIAL_DISTANCING['parameter_influence'][0])))
+        scenarios=work_community_scenario(**(HOME_OFFICE['time_influence'][1])))
 
     scenario.run(verbose=True)
     scenario.plot(do_show=True, to_plot=overview_plots, sep_figs=True)
