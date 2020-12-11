@@ -9,6 +9,7 @@ pop_file = os.path.join(data_base_path, "population.pop")
 """file to backup interventions"""
 date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 intervention_file = os.path.join(data_base_path, "backups/interventions_" + date + '.csv')
+result_file_xlsx = os.path.join(data_base_path, "results/result_" + date + '.xlsx')
 
 pop_size = 388711
 pop_type = 'synthpops'
