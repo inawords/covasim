@@ -5,9 +5,9 @@ PARAMETER_RANGE = [0.2, 0.4, 0.6]  # 0,0 is best case, 0.8 is worst case scenari
 PARAMETER_CONST = [0.8] * len(PARAMETER_RANGE)
 
 LABELS = dict(
-    c='social_distancing',
-    w='home_office',
-    cw='mixed',
+    c='c',
+    w='w',
+    cw='cw',
 )
 
 INTERVENTION_START = [sim_intervention, sim_intervention_october, sim_intervention_after_school]

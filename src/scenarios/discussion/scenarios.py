@@ -35,7 +35,7 @@ SCEN_DISCUSSION = {
     'mixed': {
         'name': 'discussion mixed',
         'pars': {
-            'interventions': create_interventions_mixed(0.5, 0.5, INTERVENTION_START)
+            'interventions': create_interventions_mixed(0.6, 0.6, INTERVENTION_START)
         },
     },
 }
