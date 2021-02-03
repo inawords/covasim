@@ -1,3 +1,27 @@
+==================
+Simulation Project
+==================
+
+The code to simulate the Covid-19 pandemic in Vorarlberg can be found in the directory ``src``.
+
+Setup
+=====
+
+Python 3.7 is required. Using a different python version leads to different results.
+
+Synthpops must be installed according to the `installation instruction <https://docs.idmod.org/projects/synthpops/en/latest/installation.html>`_.
+
+To setup Covasim, navigate to the root of the repository and install the Covasim Python package::
+
+          python setup.py develop
+
+For more detail, see GitHub installation instructions down below.
+
+Experiments
+===========
+The directory ``src`` contains executable files for each experiment. These files start with ``exp_``.
+
+
 =======
 Covasim
 =======

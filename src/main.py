@@ -4,16 +4,7 @@ from src.scenarios.current_situation.interventions import INT_CURRENT_SITUATION
 from src.scenarios.best_worst_case.scenarios import *
 from src.scenarios.work_vs_community.scenarios import *
 from src.scenarios.discussion.scenarios import *
-
-overview_plots = [
-            'cum_infections',
-            'cum_deaths',
-            'cum_diagnoses',
-            'r_eff',
-            ]
-
-end_date_real_data = '2020-10-31'
-end_date_sim = '2021-04-30'
+from src.utils.utils import overview_plots, end_date_real_data, end_date_sim
 
 
 def vorarlberg_simulation():

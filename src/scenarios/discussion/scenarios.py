@@ -5,35 +5,35 @@ INTERVENTION_START = "2020-11-01"
 
 SCEN_DISCUSSION = {
     'best_case': {
-        'name': 'discussion best',
+        'name': 'best',
         'pars': {
             'interventions': INT_BEST_CASE
         },
     },
 
     'worst_case': {
-        'name': 'discussion worst',
+        'name': 'worst',
         'pars': {
             'interventions': INT_WORST_CASE
         },
     },
 
     'home_office': {
-        'name': 'discussion home office',
+        'name': 'home office',
         'pars': {
             'interventions': create_interventions_home_office(0.5, 0.5, INTERVENTION_START)
         },
     },
 
     'social_distancing': {
-        'name': 'discussion social distancing',
+        'name': 'social distancing',
         'pars': {
             'interventions': create_interventions_social_distancing(0.8, 0.5, INTERVENTION_START)
         },
     },
 
     'mixed': {
-        'name': 'discussion mixed',
+        'name': 'combined',
         'pars': {
             'interventions': create_interventions_mixed(0.6, 0.6, INTERVENTION_START)
         },

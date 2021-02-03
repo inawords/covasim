@@ -1,6 +1,4 @@
 from src.interventions import *
-from src.scenarios.work_vs_community import utils
-
 
 def create_interventions_mixed(beta, edges, intervention_start):
     """
@@ -12,7 +10,7 @@ def create_interventions_mixed(beta, edges, intervention_start):
     return create_interventions(
         work=create_edges_beta(add_edges_beta(work_data, intervention_start, edges, beta)),
         community=
-        create_edges_beta(add_edges_beta(community_data, intervention_start, edges, utils.PARAMETER_CONST[0])),
+        create_edges_beta(add_edges_beta(community_data, intervention_start, edges, 0.8)),
     )
 
 
